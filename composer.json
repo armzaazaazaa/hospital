@@ -42,7 +42,8 @@
     "zendframework/zend-barcode": "^2.6",
     "firebase/php-jwt": "~3.0.0",
     "kartik-v/yii2-widget-select2": "@dev",
-    "cornernote/yii2-linkall": "*"
+    "cornernote/yii2-linkall": "*",
+    "perminder-klair/yii2-dropzone": "dev-master"
   },
   "dependencies": {
     "select2": "~4.0"

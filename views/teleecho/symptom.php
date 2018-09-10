@@ -7,6 +7,7 @@
  */
 
 $this->title = '';
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
@@ -33,6 +34,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/global/master-utility-f
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/global/validator.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]); //java
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/jquery-ui.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/symptom.js?t=' . time(), ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/upload.js?t=' . time(), ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/upload.css', ['depends' => [\yii\bootstrap\BootstrapPluginAsset::className()]]);
 ?>
 
 <div class="box box-danger">
@@ -99,40 +102,44 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/symptom.js?t='
                                                     </select>
                                                 </div>
                                             </div>
-                                            <br>  <br>
+                                            <br> <br>
                                             <div class="col-lg-12">
                                                 <label for="monthselect"
                                                        class="col-sm-4 control-label">อาการ</label>
                                                 <div class="col-sm-8">
-                                                    <input style="width: 310px;height: 30px" type="text" id="diagnosis" name="diagnosis">
+                                                    <input style="width: 310px;height: 30px" type="text" id="diagnosis"
+                                                           name="diagnosis">
                                                 </div>
                                             </div>
-                                            <br>  <br>
+                                            <br> <br>
                                             <div class="col-lg-12">
                                                 <label for="monthselect"
                                                        class="col-sm-4 control-label">ผลตรวจทางห้องปฏิบัติการ</label>
                                                 <div class="col-sm-8">
-                                                    <textarea type="text" class="form-control" rows="3" id="lab" name="lab"></textarea>
+                                                    <textarea type="text" class="form-control" rows="3" id="lab"
+                                                              name="lab"></textarea>
                                                 </div>
                                             </div>
-                                            <br>  <br><br>  <br>
+                                            <br> <br><br> <br>
                                             <div class="col-lg-12">
                                                 <label for="monthselect"
                                                        class="col-sm-4 control-label">แผนการรักษา</label>
                                                 <div class="col-sm-8">
-                                                    <textarea type="text" class="form-control" rows="3" id="pan" name="pan"></textarea>
+                                                    <textarea type="text" class="form-control" rows="3" id="pan"
+                                                              name="pan"></textarea>
                                                 </div>
                                             </div>
-                                            <br>  <br><br>  <br>
+                                            <br> <br><br> <br>
                                             <div class="col-lg-12">
                                                 <label for="monthselect"
                                                        class="col-sm-4 control-label">comment</label>
                                                 <div class="col-sm-8">
-                                                    <textarea type="text" class="form-control" rows="3" id="comment" name="comment"></textarea>
+                                                    <textarea type="text" class="form-control" rows="3" id="comment"
+                                                              name="comment"></textarea>
                                                 </div>
                                             </div>
 
-                                            <br>  <br><br>  <br>
+                                            <br> <br><br> <br>
                                             <div class="col-lg-12">
                                                 <label for="monthselect"
                                                        class="col-sm-4 control-label">ส่งรายงาน</label>
@@ -141,11 +148,36 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/symptom.js?t='
                                                             class="form-control select2">
                                                         <option value="">ไม่ส่ง</option>
                                                         <?php foreach ($modeldocter as $k => $v) { ?>
-                                                            <option value="<?php echo $v['id'] ?>"><?php echo $v['firstname']." "." ".$v['lastname'] ?></option>
+                                                            <option value="<?php echo $v['id'] ?>"><?php echo $v['firstname'] . " " . " " . $v['lastname'] ?></option>
                                                         <?php }; ?>
                                                     </select>
                                                 </div>
                                             </div>
+
+
+
+                                            <br> <br><br> <br>
+                                            <div class="col-lg-12 dropzone">
+                                                <label for="monthselect"
+                                                       class="col-sm-4 control-label">รูปภาพและวีดีโอ</label>
+                                                <p><a href="viewupload">viewupload</a></p>
+
+                                                <?= \kato\DropZone::widget([
+                                                    'options' => [
+                                                        'url' => Url::to(['teleecho/upload']),
+                                                        'autoDiscover' => false,
+                                                        'maxFilesize' => '50',
+                                                    ],
+                                                    'clientEvents' => [
+                                                        'complete' => "function(file){console.log(file)}",
+                                                        'removedfile' => "function(file){alert(file.name + ' is removed')}"
+                                                    ],
+                                                ]);
+
+
+                                                ?>
+                                            </div>
+
 
 
                                         </div>
@@ -173,7 +205,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/symptom.js?t='
                             <?php
                             Pjax::begin(['id' => 'pjax_tb_savesymptom']);
                             echo GridView::widget([
-                                'dataProvider' => $showsymtomsearch ,
+                                'dataProvider' => $showsymtomsearch,
                                 'filterModel' => $showsymtomprovider,
                                 'columns' => [
                                     [
@@ -212,7 +244,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/symptom.js?t='
 
                                         'class' => 'yii\grid\ActionColumn',
                                         'header' => 'จัดการข้อมูลผู้ป่วย',
-                                        'template' => '{view} &nbsp;&nbsp; {update}  &nbsp;&nbsp; {delete}',
+                                        'template' => ' &nbsp;&nbsp; {update}  &nbsp;&nbsp; {delete}',
                                         'buttons' => [
                                             'update' => function ($url, $data) {
                                                 return Html::a('<img src="' . Yii::$app->request->baseUrl . '/images/global/edit-icon.png">', 'javascript:;', [
@@ -242,10 +274,30 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/hospital/symptom.js?t='
 //                                                        },
                                         ],
 
+
                                         'contentOptions' => ['style' => 'width: 200px;', 'align=center']
 
                                     ],
+                                    [
+                                        'headerOptions' => ['width' => '100'],
+                                        'class' => 'yii\grid\ActionColumn',
+                                        'header' => 'ดูข้อมูล',
+                                        'template' => '{update}',
+                                        'buttons' => [
+                                            'update' => function ($url, $data) {
+                                                $urls = Url::to([
+                                                    'teleecho/department',
+                                                    'id' => $data->id
+                                                ]);
+                                                return Html::button('ดูข้อมูล', $options = [
+                                                    'onclick' => '(function($event) {
+                                                                    window.location.href="' . $urls . '";
+                                                                })();'
 
+                                                ]);
+                                            },
+                                        ],
+                                    ],
 
 
                                 ],

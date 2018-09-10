@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\File;
+use kato\assets\DropZoneAsset;
 use app\models\Doctor;
 use app\models\Symtom;
 use Yii;
@@ -10,6 +12,8 @@ use app\models\PatientSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
+use yii\helpers\Json;
 
 /**
  * TeleechoController implements the CRUD actions for Patient model.
@@ -135,12 +139,12 @@ class TeleechoController extends Controller
         $doctorid = 1;
 
         $showsymtomprovider = new Symtom();
-        $showsymtomsearch = $showsymtomprovider->search(\Yii::$app->request->queryParams,$doctorid);
+        $showsymtomsearch = $showsymtomprovider->search(\Yii::$app->request->queryParams, $doctorid);
 
         return $this->render('symptom', [
 
-            'showsymtomprovider'=> $showsymtomprovider,
-            'showsymtomsearch'=> $showsymtomsearch,
+            'showsymtomprovider' => $showsymtomprovider,
+            'showsymtomsearch' => $showsymtomsearch,
 
             'modelpatient' => $modelpatient,
             'modeldocter' => $modeldocter
@@ -231,14 +235,14 @@ class TeleechoController extends Controller
         $doctorid = 1;
 
         $showsymtomprovider = new Symtom();
-        $showsymtomsearch = $showsymtomprovider->search(\Yii::$app->request->queryParams,$doctorid);
+        $showsymtomsearch = $showsymtomprovider->search(\Yii::$app->request->queryParams, $doctorid);
 
 
-        return $this->render('results',[
-            'modelpatient'=>$modelpatient,
-            'modeldocter'=>$modeldocter,
-            'showsymtomprovider'=>$showsymtomprovider,
-            'showsymtomsearch'=>$showsymtomsearch,
+        return $this->render('results', [
+            'modelpatient' => $modelpatient,
+            'modeldocter' => $modeldocter,
+            'showsymtomprovider' => $showsymtomprovider,
+            'showsymtomsearch' => $showsymtomsearch,
 
         ]);
     }
@@ -345,5 +349,227 @@ class TeleechoController extends Controller
         exit();
 
     }
+
+    public function actionUpload()
+    {
+        $fileName = 'file';
+        $uploadPath = 'upload';
+
+        if (isset($_FILES[$fileName])) {
+            $file = \yii\web\UploadedFile::getInstanceByName($fileName);
+
+            //Print file data
+            //print_r($file);
+
+
+            $y = explode(".", $file);
+            $new_name = rand() . "." . $y['1'];
+
+            if ($file->saveAs($uploadPath . '/' . $file->name)) {
+                //Now save file data to database
+                $model = new File();
+                $model->id_doctor = 1;
+                $model->name = $file->name;
+                $model->date = date('Y-m-d ');
+                $model->type = 1;
+                $model->id_patient = 28;
+                $model->save();
+                echo \yii\helpers\Json::encode($file);
+            }
+        } else {
+            return $this->render('upload');
+        }
+
+        return false;
+    }
+
+    public function actionViewupload()
+    {
+        $showsimg = File::find()
+            ->where([
+                'id_patient' => 1
+            ])
+            ->asArray()
+            ->all();
+
+        $imgs = [];
+        foreach ($showsimg as $img) {
+
+            $imgs[$img['id']] = [$img['name']];
+
+        }
+
+//        echo '<pre>';
+//        print_r($imgs);
+//        echo '</pre>';
+//
+//        exit();
+//        $showpatient = new Patient();
+//        $showsee = $showpatient->search(\Yii::$app->request->queryParams);
+
+        return $this->render('viewupload', [
+            'imgs' => $imgs
+//            'showpatient' => $showpatient,
+//            'showsee' => $showsee
+
+        ]);
+    }
+
+    public function actionParser()
+    {
+        echo '22222';
+
+//        $post = Yii::$app->request->post();
+//        print_r($post);
+//        exit();
+//        if(!empty($_FILES)){
+//            $temp = $_FILES['file']['tem_name'];
+//            $dir_separator = DIRECTORY_SEPARATOR;
+//            $folder = Yii::$app->request->baseUrl . '/upload/';
+//
+//            $destination_path = dirname(__FILE__).$dir_separator.$folder.$dir_separator;
+//
+//            $target_pasth = $destination_path.$_FILES['file']['name'];
+//            move_uploaded_file($temp,$target_pasth);
+//
+//        }
+        /*  $showsdoctor = Doctor::find()
+              ->where(['firstname'])
+              ->asArray()
+              ->all();*/
+
+//        $showpatient = new Patient();
+//        $showsee = $showpatient->search(\Yii::$app->request->queryParams);
+
+        return $this->render('parser', [
+//            'showpatient' => $showpatient,
+//            'showsee' => $showsee
+
+        ]);
+    }
+
+    public function actionDepartment()
+    {
+        $postValue = Yii::$app->request->get();
+
+        $modelSymtom = Symtom::find()
+            ->where([
+                'id' => $postValue['id']
+            ])
+            ->asArray()
+            ->all();
+        $namepatient = [];
+        $id_doctor = [];
+        $date = [];
+        foreach ($modelSymtom as $item) {
+            $namepatient = $item['id_patient'];
+            $id_doctor = $item['id_doctor'];
+            $date = $item['date'];
+        }
+
+        $modelPatient = Patient::find()
+            ->where([
+                'id' => $namepatient
+            ])
+            ->asArray()
+            ->all();
+
+        $modelDoctor = Doctor::find()
+            ->where([
+                'id' => $id_doctor
+            ])
+            ->asArray()
+            ->all();
+
+        $modelFile = File::find()
+            ->where([
+                'id_patient' => $namepatient
+            ])
+            ->asArray()
+            ->all();
+
+        $imgs = [];
+        foreach ($modelFile as $img) {
+
+            $imgs[$img['id']] = [$img['name']];
+
+        }
+
+
+        $patientname = [];//ชื่อ
+        $patientgender = [];//เพศ
+        $patientage = [];//อายุ
+        $patientheight = [];//สวนสูง
+        $patientweight = [];//น้ำหนัก
+
+        foreach ($modelPatient as $patient) {
+            $patientname = $patient['name'];
+            $patientgender = $patient['gender'];
+            $patientage = $patient['age'];
+            $patientheight = $patient['height'];
+            $patientweight = $patient['weight'];
+        }
+
+        $symtompasthistory = [];
+        $symtompresentillness = [];
+        $symtomlab = [];
+        $symtomekg = [];
+        $symtomdiagnosis = [];
+        $symtomplan = [];
+        $symtomcomment = [];
+
+
+        foreach ($modelSymtom as $symtom) {
+            $symtompasthistory = $symtom['pasthistory'];
+            $symtompresentillness = $symtom['presentillness'];
+            $symtomlab = $symtom['lab'];
+            $symtomekg = $symtom['ekg'];
+            $symtomdiagnosis = $symtom['diagnosis'];
+            $symtomplan = $symtom['plan'];
+            $symtomcomment = $symtom['comment'];
+        }
+
+        $doctorfirstname = [];
+        $doctorlastname = [];
+
+        foreach ($modelDoctor as $doctor) {
+            $doctorfirstname = $doctor['firstname'];
+            $doctorlastname = $doctor['lastname'];
+        }
+
+//
+        echo '<pre>';
+        print_r($date);
+//        print_r($modelSymtom);
+//        print_r($modelDoctor);
+//        print_r($imgs);
+        echo '</pre>';
+        // exit();
+        return $this->render('department', [
+            //patient
+            'patientname' => $patientname,
+            'patientgender' => $patientgender,
+            'patientage' => $patientage,
+            'patientheight' => $patientheight,
+            'patientweight' => $patientweight,
+            //symtom
+            'date'=> $date,
+            'symtompasthistory' => $symtompasthistory,
+            'symtompresentillness' => $symtompresentillness,
+            'symtomlab' => $symtomlab,
+            'symtomekg' => $symtomekg,
+            'symtomdiagnosis' => $symtomdiagnosis,
+            'symtomplan' => $symtomplan,
+            'symtomcomment' => $symtomcomment,
+            //doctor
+            'doctorfirstname' => $doctorfirstname,
+            'doctorlastname' => $doctorlastname,
+            //$imgs
+            'imgs'=>$imgs
+
+        ]);
+
+    }
+
 
 }
