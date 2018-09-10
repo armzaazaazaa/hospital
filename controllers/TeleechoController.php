@@ -545,6 +545,7 @@ class TeleechoController extends Controller
 //        print_r($imgs);
         echo '</pre>';
         // exit();
+
         return $this->render('department', [
             //patient
             'patientname' => $patientname,
