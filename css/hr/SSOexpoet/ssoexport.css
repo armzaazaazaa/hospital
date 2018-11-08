@@ -1,0 +1,25 @@
+.b4 {
+    border: 1px solid;
+    border-radius: 25px;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: #ccc;
+}
+
+table,
+th,
+td {
+    border-spacing: 1em;
+}
+
+input {
+    border: 0;
+    border-bottom: 2px dotted;
+}
+
+.padding {
+    padding: 2px;
+    margin: 3px;
+}

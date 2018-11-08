@@ -1,0 +1,63 @@
+.list-group-item:hover, a.list-group-item:focus {
+    text-decoration: none;
+    background-color: rgb(245, 245, 245);
+    cursor: pointer;
+}
+.list-group-item.active {
+
+  background: #34b586 !important;
+  border: none;
+    
+}
+
+.list-group-item.active .glyphicon{
+
+  color:#fff;
+    
+}
+
+.list-group-item.active:hover{
+    background-color:none;
+}
+
+.pre-hole-text{
+    font-size:50px;
+    color:rgba(195, 195, 195, 0.57);
+    font-weight: bold;
+    margin:30px;
+}
+#pre-load{
+    text-align: center;
+}
+.pre-hole-text-load{
+    font-size:30px;
+    color:rgba(195, 195, 195,1);
+    font-weight: bold;
+    margin:20px;
+    margin-left:auto;
+    margin-right: auto;
+    width:150px;
+}
+
+
+.list-group button{
+    margin-left:5px;
+}
+
+span.action-menu{
+    opacity:.2;
+}
+
+li.list-group-item:hover span.action-menu{
+    opacity:1;
+}
+
+li.list-group-item .badge{
+    background-color: transparent !important;
+    color:#000;
+}
+li .sel-rank{
+    font-size:10px;
+    margin-right:10px;
+}
+

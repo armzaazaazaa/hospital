@@ -1,0 +1,169 @@
+input.form-control.dontouch,select.form-control.dontouch{
+    border:0px;
+    background-color:#fff !important;
+}
+select.form-control.dontouch{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+.empDisplayNone{
+    display: none;
+}
+
+#tab_2 .control-label{
+    padding-top:7px;
+}
+.show-inline-lable{
+    padding-top: 7px;
+    padding-left: 25px;
+}
+
+.emp-has-error{
+    color:red;
+}
+.emp-has-error input{
+    border-color:red;
+}
+.select2-selection__choice{
+    color:#2d2d2d !important;
+}
+
+.card_block{
+    
+    border:1px solid #000000;
+    /*float:left;*/
+    background: url("../../images/wshr/emp_bg_card.png") center no-repeat #fff;
+    position:relative;
+    
+}
+
+.card_block .emp_card_name{
+    text-align: left;
+}
+.card_block .emp_card_surename{
+    text-align: right;
+}
+.card_block .emp_card_position_name{
+    text-align: center;
+}
+.card_block .syt1{
+    font-weight: bold;
+
+}
+
+/*size A*/
+.card_block.sizeA{
+    width:200px;
+    height:311px;
+    margin:5px;
+}
+
+.card_block.sizeA img{
+
+    width: 115px;
+    margin-top: 60%;
+    margin-left: 20%;
+}
+
+.card_block.sizeA .emp_card_name{
+    width:100%;
+    padding-left:4%;
+    margin-top:3px;
+}
+.card_block.sizeA .emp_card_surename{
+    width:100%;
+    padding-right: 4%;
+    /*margin-top:3px;*/
+}
+.card_block.sizeA .emp_card_position_name{
+    width:100%;
+    /*margin-top:3px;*/
+}
+/* end size A*/
+
+
+.empcard_content_out{
+    width:100%;
+    border:1px solid #ccc;
+    margin-top:20px;
+    float:left;
+}
+
+.empcard_content{
+    border:1px dashed #ccc;
+    /*padding:5px;*/
+    margin-top:20px;
+    margin-bottom: 20px;
+
+    width: 210mm;
+    /*padding-left: 10px;*/
+
+    /*margin-left:auto;
+    margin-right: auto;*/
+    float:left;
+    background-color: #fff;
+}
+
+.empcard_content .txt_bf_search{
+    font-size: 40px;
+    font-weight: bold;
+    color: #d2d6de;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card_back_block{
+    
+    border:1px solid #000000;
+    /*float:left;*/
+    background: url("../../images/wshr/emp_back_bg.png") center no-repeat #fff;
+    position:relative;
+    
+}
+.emp_card_transform{
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+.card_back_block.sizeA{
+    width:200px;
+    height:311px;
+    margin:5px;
+}
+.container_card{
+    float:left;
+}
+.card_back_block .text_back_card{
+   font-size: 10px;
+    font-weight: bold;
+    margin-top: 40px;
+    line-height: 20px;
+    margin-left: 5px;
+}
+.form-emp .input-group.date input{
+    text-align: left;
+}
+.datepicker{z-index:1151 !important;}
+
+
+.popover{
+    width:400px !important;
+    height:200px !important;
+    z-index: 1;
+}
+
+.modal-wide .modal-dialog {
+    width: 80%; /* or whatever you wish */
+}
+.col-centered{
+    display: block;
+    margin-left:0 auto;
+    margin-right:0 auto;
+    text-align: center;
+}
+.datepicker{z-index:1151 !important;}
